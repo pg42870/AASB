@@ -96,14 +96,14 @@ class SuffixTree:
                 res.extend(leafes)
         return res
     
-    def nodes_below(self,node):
+    def nodes_below(self,node): #exercicio 1 a
         nodulo = self.nodes[node][1]
         res = []
         for n in nodulo.keys():
             res.append(nodulo[n])
         return res
     
-    def matches_prefix(self,prefix):
+    def matches_prefix(self,prefix): #exercicio 1 b
         res=[]
         pos= self.find_pattern(prefix)[0]
         nb = self.nodes_below(pos)
