@@ -97,35 +97,34 @@ class SuffixTree:
         return res
     
     def nodes_below(self,node): #exercicio 1 a
-        nodulo = self.nodes[node][1]
         res = []
-        for n in nodulo.keys():
-            res.append(nodulo[n])
-        return res
+        if self.nodes[node][0] < 0: # é um nó
+            res.append(node) # adiciona o nó à lista
+            for k in res: # vai À lista e percorre os nós guardado
+                res.extend(list(self.nodes[k][1].values()))
+            return res[1::]   # como o primeiro elemento da lista é o proprio nó apresenta-se apenas os seguintes valores 
     
     def matches_prefix(self,prefix): #exercicio 1 b
         res=[]
         pos= self.find_pattern(prefix)[0]
         nb = self.nodes_below(pos)
-        print("nb : ",nb)
+        #print("nb : ",nb)
         p = prefix[0]
         seq ="T"
-        j = 1
-        for i in self.nodes_below(pos):
+        for i in nb:
             print(self.nodes_below(pos))
             if p in self.nodes[pos][1].keys():
-                print(self.nodes[pos][1].keys())
+                #print(self.nodes[pos][1].keys())
                 pos = self.nodes[pos][1][p]
-                print("pos", pos)
-                print(self.nodes[pos][1] )
-                if prefix[j] in self.nodes[pos][1]:
-                    s = seq + prefix[j]
-                    print("s ",s)
+                #print("pos", pos)
+                #print(self.nodes[pos][1] )
+                if prefix[i] in self.nodes[pos][1]:
+                    s = seq + prefix[i]
+                    #print("s ",s)
                     seq = s
-                    print("seq", seq)
-                    print("res", res)
-                    res.append(seq)   
-            j += 1
+                    #print("seq", seq)
+                    #print("res", res)
+                    res.append(seq)
         return res
         
 
