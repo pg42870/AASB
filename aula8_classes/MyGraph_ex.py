@@ -8,6 +8,7 @@ Created on Thu Apr 29 16:03:16 2021
 ## Graph represented as adjacency list using a dictionary
 ## keys are vertices
 ## values of the dictionary represent the list of adjacent vertices of the key node
+import numpy as np
 
 class MyGraph_ex:
     
@@ -133,23 +134,23 @@ class MyGraph_ex:
             node, dist = l.pop(0)
             for elem in self.graph[node]:
                 if elem[0] == dist:
-                    return dist+1
+                    return dist+elem[1]
                 elif elem[0] not in visited:
-                    l.append((elem[0],dist+1))
+                    l.append((elem[0],dist+elem[1]))
                     visited.append(elem[0])
         return None
         
     def shortest_path(self, s, d):
         if s == d: return [s,d]
-        l = [(s,[])]
+        l = [(s,[],np.inf)]
         visited = [s]
         while len(l)>0:
-            node, preds = l.pop(0)
+            node, preds ,dist = l.pop(0)
             for elem in self.graph[node]:
                 if elem[0] == d:
                     return preds+[node,elem[0]]
                 elif elem not in visited:
-                    l.append((elem[0],preds+[node]))
+                    l.append((elem[0],preds+[node],dist))
                     visited.append(elem[0])
         return None
         
