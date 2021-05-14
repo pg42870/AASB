@@ -133,7 +133,7 @@ class MyGraph_ex:
         while len(l) > 0:
             node, dist = l.pop(0)
             for elem in self.graph[node]:
-                if elem[0] == dist:
+                if elem[0] == d:
                     return dist+elem[1]
                 elif elem[0] not in visited:
                     l.append((elem[0],dist+elem[1]))
