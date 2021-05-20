@@ -6,20 +6,37 @@ class OverlapGraph(MyGraph):
     
     def __init__(self, frags):
         MyGraph.__init__(self, {})
-        self.create_overlap_graph(frags)
-
-#    def __init__(self, frags, reps = False):
-#        if reps: self.create_overlap_graph_with_reps(frags)
-#        else: self.create_overlap_graph(frags)
-#        self.reps = reps
+        if reps:
+            self.create_overlap_graph_with_reps(frags)
+        else: self.create_overlap_graph(frags)
+        self.reps = reps
         
     
     ## create overlap graph from list of sequences (fragments)
     def create_overlap_graph(self, frags):
-        # ...
+        # add vertices
+        for s in frags:
+            self.add_vertex(s)
+        # add edges
+        for s in frags:
+            suf = suffix(s)
+            for s2 in frags:
+                if prefix(s2) == suf:
+                    self.add_edge(s,s2)
         
     def create_overlap_graph_with_reps(self, frags):  # caso de replicas de fragmentos
-        # ...
+        idnum = 1
+        for s in frags:
+            self.add_vertex(seq+"-"+str(idnum))
+            idnum = idnum + 1
+        idnum = 1
+        for s in frags:
+            suf = suffix(s)
+            for s2 in frags:
+                if preffix(s2)==suf:
+                    for x in self.get.instance(s2):
+                        self.add_edge(seq+"-"+str(idnum),x)
+            idnum = idnum + 1
     
     def get_instances(self, seq):
         res = []
@@ -33,7 +50,12 @@ class OverlapGraph(MyGraph):
         else: return node
     
     def seq_from_path(self, path):
-        # ...
+        if not self.check_if_hamiltonian_path(path):
+            return None
+        seq = self.get_seq(path[0])
+        for i in range(1,len(path)):
+            nxt = self.get_seq(path[i])
+            seq += nxt[-1]
         return seq    
    
                     

@@ -368,7 +368,28 @@ class MyGraph:
         edges_visit = list(self.get_edges())
         res = []
         while edges_visit:
-            pass  ## completar aqui
+            par = edges_visit[0]
+            i = 1
+            if res != []:
+                while par[0] not in res:
+                    par = edges_visit[i]
+                    i += 1
+            edges_visit.remove(par)
+            s, nxt = par
+            cycle = [s, nxt]
+            while nxt != s:
+                for suc in self.graph[nxt]:
+                    if(nxt, suc) in edges_visit:
+                        par = (nxt, suc)
+                        nxt = suc
+                        cycle.append(nxt)
+                        edges_visit.remove(par)
+            if not res:
+                res = cycle
+            else:
+                pos = res.index(cycle[0])
+                for i in range(len(cycle)-1):
+                    res.insert(pos + i + 1, cycle[i+1])
         return res                 
       
     def eulerian_path(self):
